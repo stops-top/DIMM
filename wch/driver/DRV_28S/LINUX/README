@@ -1,0 +1,189 @@
+==========================================================================================
+=                                                                                        =
+=                  WCH Multi-I/O Board Driver Installation Guide                         =
+=                                                                                        =
+=                                 For Kernel 2.4 & 2.6 & 3.x                             =
+=                   Copyright 2014 WCH GROUP all right reserved                          =
+=                                                                   Version: 3.0.0.1     =
+=                                                                   Date: 2014/06/18     =
+==========================================================================================
+
+Item
+
+A. Release note
+
+B. Introduction
+
+C. Distributions test
+
+D. Installation
+
+   D.1 Driver install
+   D.2 Device node creation
+	
+E. Loading driver automatic after system bootup
+   
+   E.1 
+    RedHat 8
+    Fedora Core 1
+    Fedora Core 8
+    Fedora Core 10
+    Fedora Core 11
+    Mandriva 2008
+       		
+   E.2 
+    Suse 9.3
+    SuSE 11.2 Milestone 4
+
+   E.3 
+    Ubutu 8.04 Destop
+    Ubuntu 12.04 Destop
+    Ubuntu 13.10 Destop
+	
+   E.4 
+    Turbo Liunx 10
+    Red Hat Enterprise Liunx 4.0
+       
+   E.5 
+    Others	
+
+F. Utility
+
+   F.1 wchterm
+
+==========================================================================================
+
+A. Release note
+
+	Support kernel 2.4, 2.6 and 3.x on x86 machine only. Distributions test refer to item C. 
+	Before driver installation. Make sure system with c compiler and kernel development 
+	package.   
+				
+------------------------------------------------------------------------------------------
+
+B. Introduction
+
+	Maximum 2 boards can be installed in combination(up to 64 serial port), 
+	support wch multi i/o boards as list below.
+
+------------------------------------------------------------------------------------------
+
+C. Distributions test
+
+	Driver tested with distributions as list.
+
+  	RedHat 8
+  	Fedora Core 1	
+  	Fedora Core 8
+  	Fedora Core 10
+  	Fedora Core 11
+	Fedora Core 22
+  	Mandriva 2008
+  	Turbo Liunx 10
+  	Red Hat Enterprise Liunx 4.0 
+  	Suse 9.3
+  	SuSE 11.2 Milestone 4
+  	Ubutu 8.04 Desktop
+  	Ubuntu 12.04 Desktop
+        Ubuntu 13.10 Desktop
+	Ubuntu 14.04 Desktop
+
+------------------------------------------------------------------------------------------
+
+D. Installation
+	
+	D.1 Driver install
+		Please create a directory under root directory,  e.g /temp, do commands:
+
+		# cd /
+		# mkdir temp
+
+		After get driver file "ch38x.tar.gz". Copy file to /temp
+		directory, then extract and install, do commands:
+
+		# cp ch38x.tar.gz /temp 
+		# cd /temp
+		# tar xvfz ch38x.tar.gz
+		# cd /temp/driver
+		# make clean ; make install
+
+		*************************************************************
+		* If system is Suse 9.0 and errors occur when               *
+		* "make clean ; make install", do commands:                 *
+		*                                                           *
+		* # cd /usr/src/linux/                                      *
+		* # make cloneconfig                                        *
+		* # make dep                                                * 
+		*                                                           *
+		* then do "make clean ; make install" again in /temp/driver *
+		*************************************************************
+
+		Load driver module, do command:
+
+		# modprobe wch
+		or
+		# insmod /temp/ch38x/driver/wch.ko (wch.o for kernel 2.4)
+
+		Check driver module, do command:
+		# lsmod | grep wch
+
+		Unload driver, do command:
+		# rmmod wch
+
+
+	D.2 Device node creation 
+		Each serial port has one device node which is named "ttyWCH?",
+		maximum up to 256 serial ports.
+		
+		This setup will be done when do "make clean ; make install", if
+		device nodes aren't in /dev, try again. 
+
+------------------------------------------------------------------------------------------
+
+E. Loading driver automatic after system bootup
+
+  	
+	E.1 
+	    After finish item D. Edit /etc/rc.d/rc.local for loading driver 
+	    automatic after system bootup. Use vi or other editor to open rc.local, 
+	    and add "modprobe wch" in last line.
+
+
+	E.2 
+	    After finish item D.
+	    Edit /etc/rc.d/boot.local for loading driver automatic after system bootup. 
+	    Use vi or other	editor to open boot.local, and add "modprobe wch" in last line.
+	    Edit /etc/rc.d/halt.lAfter finish item D. Edit /etc/rc.d/rc.local for loading driver 
+	    automatic after system bootup. Use vi or other editor to open rc.local, 
+	    and add "modprobe wch" in last line.ocal for unloading driver when system halt. 
+	    Use vi or other editor to open halt.local, and add "rmmod wch" in last line.
+	    
+	    
+	E.3 
+	    After finish item D. Edit /etc/init.d/rc.local for loading driver 
+	    automatic after system bootup. Use vi or other editor to open rc.local, 
+	    and add words as below in last line.
+				
+			modprobe wch
+		
+	E.4 
+	    After finish item D. Edit /etc/rc.d/rc.local for loading driver 
+	    automatic after system bootup. Use vi or other editor to open rc.local, 
+	    and add words as below in last lien. 
+		
+			modprobe wch
+		
+		
+	E.5 
+	    In general, other distributions will loading driver automatic after system bootup.		
+	    If it doesn't, please refer to item E.1 or E.2. or E.3 or E.4
+				
+				
+------------------------------------------------------------------------------------------
+
+F. Utility
+	F1. wchterm - dumb terminal for test tty device node data transmitting and receiving, do command:
+
+		# wchterm
+
+------------------------------------------------------------------------------------------
