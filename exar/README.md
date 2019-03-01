@@ -19,5 +19,3 @@ $ echo -n "0000:03:00.0" > /sys/bus/pci/drivers/serial/unbind
 ---
 
 ### 锻造最美之器
-
-[![sites](qitas/qitas.png)](http://www.qitas.cn)
