@@ -1,4 +1,4 @@
-﻿### [Exar](https://github.com/qitas/Uarts2PCIe) 
+﻿## Exar
 
 XR17V358  PCIe Multiport (8 Channels) Boards
 
@@ -16,6 +16,3 @@ $ echo -n "0000:03:00.0" > /sys/bus/pci/drivers/serial/unbind
 - insmod xr17v358.ko
 - ls /dev/ttyRX0
 
----
-
-### 锻造最美之器
