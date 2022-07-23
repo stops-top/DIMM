@@ -1,0 +1,60 @@
+name: "ci"
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    paths:
+      - '*.sch'
+      - '*.kicad_sch'
+      - '*.kicad_pcb'
+      - '*.kibot.yaml'
+      - 'Makefile'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - '*.sch'
+      - '*.kicad_sch'
+      - '*.kicad_pcb'
+      - '*.kibot.yaml'
+      - 'Makefile'
+      - '.github/workflows/ci.yml'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  ERC:
+    runs-on: ubuntu-latest
+    container: setsoft/kicad_auto:dev_k6
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run ERC
+      working-directory: ./kicad/PCIexpress_x1_full
+      run: |
+        make erc
+
+    - name: Retrieve results
+      uses: actions/upload-artifact@v2
+      with:
+        name: ERC_Output
+        path: Generated
+
+  DRC:
+    runs-on: ubuntu-latest
+    container: setsoft/kicad_auto:dev_k6
+    needs: ERC
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run DRC
+      working-directory: ./kicad/PCIexpress_x1_full
+      run: |
+        make drc
+
+    - name: Retrieve results
+      uses: actions/upload-artifact@v2
+      with:
+        name: DRC_Output
+        path: Generated
+

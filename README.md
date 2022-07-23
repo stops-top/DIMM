@@ -1,5 +1,6 @@
 ﻿# [PCI-E](https://github.com/stops-top/PCI-E)
 
+[![Build Status](https://github.com/stops-top/PCI-E/workflows/ci/badge.svg)](https://github.com/stops-top/PCI-E/actions/workflows/ci.yml)
 
 [PCI-E](https://docs.stops.top/pcie.html) 可用于实现存储扩展，用于网络资源的安全部署，用于扩展网络路由功能，用于扩展数据接收和处理能力，用于加速计算和数据转换转码等。
 
