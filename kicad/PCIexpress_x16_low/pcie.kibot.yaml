@@ -21,6 +21,18 @@ variants:
     comment: 'Normal PCB but no USB'
     type: kibom
 
+  - name: 'maximal'
+    comment: 'Full board'
+    type: kibom
+    file_id: _MAX
+    variant: maximal
+
+  - name: 'minimal'
+    comment: 'crystal included'
+    type: kibom
+    file_id: _MIN
+    variant: minimal
+
 outputs:
   - name: 'bom_xlsx'
     comment: "Spreadsheet for the Bill of Materials"

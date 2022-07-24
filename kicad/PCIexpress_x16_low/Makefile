@@ -17,6 +17,6 @@ netlist:
 var_default:
 	$(KIBOT) $(DEBUG) -d $(OUT_DIR)/default -g variant=default -s all
 
-template: netlist var_default 
+template: netlist var_default  
 
-.PHONY: template erc drc netlist var_default
+.PHONY: template erc drc netlist var_default  
