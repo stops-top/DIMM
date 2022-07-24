@@ -20,41 +20,53 @@ on:
       - 'Makefile'
       - '.github/workflows/ci.yml'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   ERC:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - "PCIexpress_x1_full"
+          - "PCIexpress_x1_half"
     runs-on: ubuntu-latest
     container: setsoft/kicad_auto:dev_k6
-
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Run ERC
-      working-directory: ./kicad/PCIexpress_x1_full
-      run: |
-        make erc
+      - name: Run ERC
+        working-directory: ./kicad/${{ matrix.version }}
+        run: |
+          make erc
 
-    - name: Retrieve results
-      uses: actions/upload-artifact@v2
-      with:
-        name: ERC_Output
-        path: Generated
+      - name: Retrieve results
+        uses: actions/upload-artifact@v2
+        with:
+          name: ERC_${{ matrix.version }}
+          path: Generated
 
   DRC:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - "PCIexpress_x1_full"
+          - "PCIexpress_x1_half"
     runs-on: ubuntu-latest
     container: setsoft/kicad_auto:dev_k6
     needs: ERC
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Run DRC
-      working-directory: ./kicad/PCIexpress_x1_full
-      run: |
-        make drc
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
 
-    - name: Retrieve results
-      uses: actions/upload-artifact@v2
-      with:
-        name: DRC_Output
-        path: Generated
+      - name: Run DRC
+        working-directory: ./kicad/${{ matrix.version }}
+        run: |
+          make drc
+
+      - name: Retrieve results
+        uses: actions/upload-artifact@v2
+        with:
+          name: DRC_${{ matrix.version }}
+          path: Generated
 
