@@ -5,20 +5,18 @@ name: "kicad"
 on:
   push:
     paths:
-      - '*.sch'
       - '*.kicad_sch'
       - '*.kicad_pcb'
       - '*.kibot.yaml'
       - 'Makefile'
-      - '.github/workflows/ci.yml'
+      - '.github/workflows/kicad.yml'
   pull_request:
     paths:
-      - '*.sch'
       - '*.kicad_sch'
       - '*.kicad_pcb'
       - '*.kibot.yaml'
       - 'Makefile'
-      - '.github/workflows/ci.yml'
+      - '.github/workflows/kicad.yml'
 
 jobs:
   ERC:
@@ -28,6 +26,7 @@ jobs:
         version:
           - "PCIexpress_x1_full"
           - "PCIexpress_x1_half"
+          - "PCIexpress_x16_low"
     runs-on: ubuntu-latest
     container: setsoft/kicad_auto:dev_k6
     steps:
@@ -51,6 +50,7 @@ jobs:
         version:
           - "PCIexpress_x1_full"
           - "PCIexpress_x1_half"
+          - "PCIexpress_x16_low"
     runs-on: ubuntu-latest
     container: setsoft/kicad_auto:dev_k6
     needs: ERC
