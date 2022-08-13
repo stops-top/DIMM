@@ -652,12 +652,12 @@
   )
 
   (text "From add-in card transmitter to mainboard receiver\nPlace AC coupling capacitors here if necessary"
-    (at 139.7 55.88 0)
+    (at 143.51 17.78 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 932b055e-583f-404d-b132-68af57dfe9ba)
   )
   (text "From mainboard transmitter to add-in card receiver\nPlace termination resistors here if necessary"
-    (at 66.04 20.32 0)
+    (at 64.77 16.51 0)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid ceede0b3-c9f9-48bc-92dd-6d540360bb3d)
   )

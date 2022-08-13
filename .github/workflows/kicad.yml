@@ -19,54 +19,84 @@ on:
       - '.github/workflows/kicad.yml'
 
 jobs:
-  ERC:
+  # ERC:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       version:
+  #         - "PCIexpress_x1_full"
+  #         - "PCIexpress_x1_half"
+  #         - "PCIexpress_x16_low"
+  #   runs-on: ubuntu-latest
+  #   container: setsoft/kicad_auto:dev_k6
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: Run ERC
+  #       working-directory: ./kicad/${{ matrix.version }}
+  #       run: |
+  #         make erc
+
+  #     - name: Retrieve results
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: ERC_${{ matrix.version }}
+  #         path: ./kicad/${{ matrix.version }}/Generated
+
+  # DRC:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       version:
+  #         - "PCIexpress_x1_full"
+  #         - "PCIexpress_x1_half"
+  #         - "PCIexpress_x16_low"
+  #   runs-on: ubuntu-latest
+  #   container: setsoft/kicad_auto:dev_k6
+  #   needs: ERC
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         submodules: "recursive"
+
+  #     - name: Run DRC
+  #       working-directory: ./kicad/${{ matrix.version }}
+  #       run: |
+  #         make drc
+
+  #     - name: Retrieve results
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: DRC_${{ matrix.version }}
+  #         path: ./kicad/${{ matrix.version }}/Generated
+
+  Fabrication:
     strategy:
       fail-fast: false
       matrix:
         version:
           - "PCIexpress_x1_full"
           - "PCIexpress_x1_half"
+          - "PCIexpress_x4_half"
+          - "PCIexpress_x8_low"
           - "PCIexpress_x16_low"
     runs-on: ubuntu-latest
-    container: setsoft/kicad_auto:dev_k6
     steps:
       - uses: actions/checkout@v2
-
-      - name: Run ERC
-        working-directory: ./kicad/${{ matrix.version }}
-        run: |
-          make erc
+      - uses: INTI-CMNB/KiBot@v2_dk6
+        with:
+          config: kicad/configs/JLCPCB.kibot.yaml
+          dir: kicad/Fabrication/${{ matrix.version }}
+          # optional - schematic file
+          schema: 'kicad/${{ matrix.version }}/${{ matrix.version }}.kicad_sch'
+          # optional - PCB design file
+          board: 'kicad/${{ matrix.version }}/${{ matrix.version }}.kicad_pcb'
 
       - name: Retrieve results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: ERC_${{ matrix.version }}
-          path: ./kicad/${{ matrix.version }}/Generated
-
-  DRC:
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - "PCIexpress_x1_full"
-          - "PCIexpress_x1_half"
-          - "PCIexpress_x16_low"
-    runs-on: ubuntu-latest
-    container: setsoft/kicad_auto:dev_k6
-    needs: ERC
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: "recursive"
-
-      - name: Run DRC
-        working-directory: ./kicad/${{ matrix.version }}
-        run: |
-          make drc
-
-      - name: Retrieve results
-        uses: actions/upload-artifact@v2
-        with:
-          name: DRC_${{ matrix.version }}
-          path: ./kicad/${{ matrix.version }}/Generated
-
+          name: Fabrication_${{ matrix.version }}
+          path: |
+            kicad/Fabrication/${{ matrix.version }}
+          if-no-files-found: warn

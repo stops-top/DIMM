@@ -4,3 +4,4 @@ Generated
 template.xml
 _config.yml
 *.kicad_prl
+*-rescue.*

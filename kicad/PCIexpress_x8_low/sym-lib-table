@@ -1,3 +1,4 @@
 (sym_lib_table
-  (lib (name PCIexpress)(type Legacy)(uri ${KIPRJMOD}/../Library/PCIexpress.lib)(options "")(descr ""))
+  (lib (name "PCIexpress")(type "Legacy")(uri "${KIPRJMOD}/../Library/PCIexpress.lib")(options "")(descr ""))
+  (lib (name "PCIexpress_x8_low-rescue")(type "Legacy")(uri "${KIPRJMOD}/PCIexpress_x8_low-rescue.lib")(options "")(descr ""))
 )
