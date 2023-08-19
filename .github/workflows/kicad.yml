@@ -33,7 +33,7 @@ jobs:
   #     - uses: actions/checkout@v2
 
   #     - name: Run ERC
-  #       working-directory: ./kicad/${{ matrix.version }}
+  #       working-directory: ./PCIe/${{ matrix.version }}
   #       run: |
   #         make erc
 
@@ -41,7 +41,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       with:
   #         name: ERC_${{ matrix.version }}
-  #         path: ./kicad/${{ matrix.version }}/Generated
+  #         path: ./PCIe/${{ matrix.version }}/Generated
 
   # DRC:
   #   strategy:
@@ -60,7 +60,7 @@ jobs:
   #         submodules: "recursive"
 
   #     - name: Run DRC
-  #       working-directory: ./kicad/${{ matrix.version }}
+  #       working-directory: ./PCIe/${{ matrix.version }}
   #       run: |
   #         make drc
 
@@ -68,7 +68,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       with:
   #         name: DRC_${{ matrix.version }}
-  #         path: ./kicad/${{ matrix.version }}/Generated
+  #         path: ./PCIe/${{ matrix.version }}/Generated
 
   Fabrication:
     strategy:
@@ -85,12 +85,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: INTI-CMNB/KiBot@v2_dk6
         with:
-          config: kicad/configs/JLCPCB.kibot.yaml
-          dir: kicad/Fabrication/${{ matrix.version }}
+          config: PCIe/configs/JLCPCB.kibot.yaml
+          dir: PCIe/Fabrication/${{ matrix.version }}
           # optional - schematic file
-          schema: 'kicad/${{ matrix.version }}/${{ matrix.version }}.kicad_sch'
+          schema: 'PCIe/${{ matrix.version }}/${{ matrix.version }}.kicad_sch'
           # optional - PCB design file
-          board: 'kicad/${{ matrix.version }}/${{ matrix.version }}.kicad_pcb'
+          board: 'PCIe/${{ matrix.version }}/${{ matrix.version }}.kicad_pcb'
 
       - name: Retrieve results
         if: ${{ always() }}
@@ -98,5 +98,5 @@ jobs:
         with:
           name: Fabrication_${{ matrix.version }}
           path: |
-            kicad/Fabrication/${{ matrix.version }}
+            PCIe/Fabrication/${{ matrix.version }}
           if-no-files-found: warn
